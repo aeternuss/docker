@@ -7,12 +7,12 @@
 
 - name: Delete existing docker-compose version if it's different.
   block:
-    command: which docker-compose
-    register: docker_compose_current_path
+    - command: which docker-compose
+      register: docker_compose_current_path
 
-    file:
-      path: "{{ docker_compose_current_path.stdout_lines[0] }}"
-      state: absent
+    - file:
+        path: "{{ docker_compose_current_path.stdout_lines[0] }}"
+        state: absent
   when: >
     docker_compose_current_version.stdout is defined
     and docker_compose_version not in docker_compose_current_version.stdout
