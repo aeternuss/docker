@@ -1,0 +1,7 @@
+---
+## Create user
+- name: Create user and add to group 'docker'
+  user:
+    name: "{{ docker_user }}"
+    groups: docker
+    state: present

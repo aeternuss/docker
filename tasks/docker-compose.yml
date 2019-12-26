@@ -1,0 +1,31 @@
+---
+- name: Check current docker-compose version.
+  command: docker-compose --version
+  register: docker_compose_current_version
+  changed_when: false
+  failed_when: false
+
+- name: Delete existing docker-compose version if it's different.
+  block:
+    command: which docker-compose
+    register: docker_compose_current_path
+
+    file:
+      path: "{{ docker_compose_current_path.stdout_lines[0] }}"
+      state: absent
+  when: >
+    docker_compose_current_version.stdout is defined
+    and docker_compose_version not in docker_compose_current_version.stdout
+
+- name: Install Docker Compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
+    dest: "{{ docker_compose_path }}-{{ docker_compose_version }}"
+    mode: 0755
+
+- name: Create Link to Docker Compose
+  file:
+    path: "{{ docker_compose_path }}"
+    src: "docker-compose-{{ docker_compose_verion }}"
+    state: link
+    force: yes

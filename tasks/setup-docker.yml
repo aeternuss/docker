@@ -1,0 +1,72 @@
+---
+# OS requirements:
+
+## To install Docker Engine - Community, you need a maintained version of CentOS 7.
+##     Archived versions aren’t supported or tested.
+## The 'centos-extras' repository must be enabled.
+##     This repository is enabled by default, but if you have disabled it, you need to re-enable it.
+## The 'overlay2` storage driver is recommended.
+
+## Older versions of Docker were called docker or docker-engine
+- name: Uninstall old versions
+  yum:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+      - docker
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate
+      - docker-engine
+
+## add 'docker-ce' repo
+- name: Add docker-ce repo
+  get_url:
+    url: "{{ docker_ce_repo }}"
+    dest: /etc/yum.repos.d/docker-ce.repo
+    force: yes
+
+## install docker-ce
+- name: Install Docker Engine - Community
+  yum:
+    name: "{{ packages }}"
+    enablerepo: extras
+    state: present
+  vars:
+    packages:
+      # docker-ce-<VERSION> docker-ce-cli-<VERSION> containerd.io
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+  notify:
+    - Restart Docker
+
+## configure docker
+## overlay2 storage driver: https://docs.docker.com/storage/storagedriver/overlayfs-driver/
+##     The overlay and overlay2 drivers are supported on xfs backing filesystems,
+##         but only with d_type=true enabled.
+##     Use xfs_info to verify that the ftype option is set to 1.
+##     To format an xfs filesystem correctly, use the flag -n ftype=1.
+- name: Create docker config dir
+  file:
+    path: /etc/docker
+    state: directory
+
+- name: Configure Docker
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    backup: yes
+  notify:
+    - Restart Docker
+
+## start docker, and enable on boot
+- name: Start Docker
+  systemd:
+    name: docker
+    enabled: yes
+    state: started

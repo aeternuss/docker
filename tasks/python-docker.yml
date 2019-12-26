@@ -1,0 +1,14 @@
+## Ansible/docker_* modules required Python library
+##    (Docker SDK for Python: docker (Python >= 2.7) or docker-py (Python 2.6)) 
+- name: Install docker Python module
+  yum:
+    #name: python36-docker
+    name: "python{{ ansible_python.version.major }}{{ ansible_python.version.minor }}-docker"
+    state: present
+  when: ansible_python_version is version('3', '>=')
+
+- name: Install docker Python module
+  yum:
+    name: python-docker-py
+    state: present
+  when: ansible_python_version is version('3', '<')
