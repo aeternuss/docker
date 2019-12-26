@@ -8,4 +8,4 @@ docker_ce_repo: https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 ## Docker Compose options.
 docker_install_compose: true
 docker_compose_version: "1.25.0"
-docker_compose_path: /usr/loca/bin/docker-compose
+docker_compose_path: /usr/local/bin/docker-compose
