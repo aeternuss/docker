@@ -27,6 +27,6 @@
 - name: Create Link to Docker Compose
   file:
     path: "{{ docker_compose_path }}"
-    src: "docker-compose-{{ docker_compose_verion }}"
+    src: "docker-compose-{{ docker_compose_version }}"
     state: link
     force: yes
