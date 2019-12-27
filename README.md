@@ -8,31 +8,31 @@ None.
 
 ## Role Variables
 
-- docker_user
+- DOCKER_USER
 
   Default: docker
 
   User to create which docker containers run as.
 
-- docker_ce_repo
+- DOCKER_CE_REPO
 
   Default: https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 
   Docker CE repository url.
 
-- docker_install_compose
+- DOCKER_INSTALL_COMPOSE
 
   Default: true
 
   Control whether install docker-compose.
 
-- docker_compose_version
+- DOCKER_COMPOSE_VERSION
 
   Default: 1.25.0
 
   The version of docker-compose to install.
 
-- docker_compose_path
+- DOCKER_COMPOSE_PATH
 
   Default: /usr/loca/bin/docker-compose
 
