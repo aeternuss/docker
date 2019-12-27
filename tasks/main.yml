@@ -4,9 +4,9 @@
   when: ansible_os_family == 'Redhat'
 
 - include_tasks: docker-user.yml
-  when: docker_user | length > 0
+  when: DOCKER_USER | length > 0
 
 - include_tasks: python-docker.yml
 
 - include_tasks: docker-compose.yml
-  when: docker_install_compose | bool
+  when: DOCKER_INSTALL_COMPOSE | bool

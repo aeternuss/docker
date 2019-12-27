@@ -1,32 +1,32 @@
 ---
 - name: Check current docker-compose version.
   command: docker-compose --version
-  register: docker_compose_current_version
+  register: DOCKER_COMPOSE_CURRENT_VERSION
   changed_when: false
   failed_when: false
 
 - name: Delete existing docker-compose version if it's different.
   block:
     - command: which docker-compose
-      register: docker_compose_current_path
+      register: DOCKER_COMPOSE_CURRENT_PATH
 
     - file:
-        path: "{{ docker_compose_current_path.stdout_lines[0] }}"
+        path: "{{ DOCKER_COMPOSE_CURRENT_PATH.stdout_lines[0] }}"
         state: absent
   when: >
-    docker_compose_current_version.stdout is defined
-    and docker_compose_version not in docker_compose_current_version.stdout
+    DOCKER_COMPOSE_CURRENT_VERSION.stdout is defined
+    and DOCKER_COMPOSE_VERSION not in DOCKER_COMPOSE_CURRENT_VERSION.stdout
 
 - name: Install Docker Compose
   get_url:
     #url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
-    url: "https://get.daocloud.io/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-{{ ansible_system }}-{{ ansible_machine }}"
-    dest: "{{ docker_compose_path }}-{{ docker_compose_version }}"
+    url: "https://get.daocloud.io/docker/compose/releases/download/{{ DOCKER_COMPOSE_VERSION }}/docker-compose-{{ ansible_system }}-{{ ansible_machine }}"
+    dest: "{{ DOCKER_COMPOSE_PATH }}-{{ DOCKER_COMPOSE_VERSION }}"
     mode: 0755
 
 - name: Create Link to Docker Compose
   file:
-    path: "{{ docker_compose_path }}"
-    src: "docker-compose-{{ docker_compose_version }}"
+    path: "{{ DOCKER_COMPOSE_PATH }}"
+    src: "docker-compose-{{ DOCKER_COMPOSE_VERSION }}"
     state: link
     force: yes

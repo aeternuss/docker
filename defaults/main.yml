@@ -1,11 +1,11 @@
 ---
 ## user to create
-docker_user: docker
+DOCKER_USER: docker
 
 ## docker-ce repo
-docker_ce_repo: https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+DOCKER_CE_REPO: https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 
 ## Docker Compose options.
-docker_install_compose: true
-docker_compose_version: "1.25.0"
-docker_compose_path: /usr/local/bin/docker-compose
+DOCKER_INSTALL_COMPOSE: true
+DOCKER_COMPOSE_VERSION: "1.25.0"
+DOCKER_COMPOSE_PATH: /usr/local/bin/docker-compose
